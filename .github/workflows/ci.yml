@@ -70,7 +70,6 @@ jobs:
 
         # Upload Trivy report
       - name: Upload Trivy report
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: trivy-report
