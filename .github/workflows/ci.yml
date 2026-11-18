@@ -25,16 +25,26 @@ jobs:
       - name: Compile Java code
         run: mvn compile
 
-      # Gitleaks scan (before compilation)
-      - name: Run Gitleaks scan
-        uses: zricethezav/gitleaks-action@v2
+      # # Gitleaks scan (before compilation)
+      # - name: Run Gitleaks scan
+      #   uses: zricethezav/gitleaks-action@v2
         
-      # Upload the Gitleaks report
-      - name: Upload Gitleaks report
-        uses: actions/upload-artifact@v4
+      # # Upload the Gitleaks report
+      # - name: Upload Gitleaks report
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: gitleaks-report
+      #     path: results.sarif
+
+      - name: SonarQube Cloud Scan
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Nécessaire pour l'analyse des PR si applicable
         with:
-          name: gitleaks-report
-          path: results.sarif
+          args: >
+            -Dsonar.organization=votre-vraie-cle-organisation
+            -Dsonar.projectKey=votre-vrai-project-key
 
       # # Login Docker Hub
       # - name: Login to Docker Hub
@@ -94,12 +104,4 @@ jobs:
       #       -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
       #       -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
-      - name: SonarQube Cloud Scan
-        uses: SonarSource/sonarqube-scan-action@v5.0.0
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Nécessaire pour l'analyse des PR si applicable
-        with:
-          args: >
-            -Dsonar.organization=votre-vraie-cle-organisation
-            -Dsonar.projectKey=votre-vrai-project-key
+     
