@@ -85,11 +85,21 @@ jobs:
       # Run SonarCloud scan
             # Run SonarCloud scan
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+      # - name: SonarCloud Scan
+      #   uses: SonarSource/sonarcloud-github-action@master
+      #   with:
+      #     projectBaseDir: .
+      #     args: >
+      #       -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+      #       -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+      #       -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
+      - name: SonarQube Cloud Scan
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Nécessaire pour l'analyse des PR si applicable
         with:
-          projectBaseDir: .
           args: >
-            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
-            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.organization=votre-vraie-cle-organisation
+            -Dsonar.projectKey=votre-vrai-project-key
