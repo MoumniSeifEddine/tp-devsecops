@@ -43,8 +43,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Nécessaire pour l'analyse des PR si applicable
         with:
           args: >
-            -Dsonar.organization=votre-vraie-cle-organisation
-            -Dsonar.projectKey=votre-vrai-project-key
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
 
       # # Login Docker Hub
       # - name: Login to Docker Hub
